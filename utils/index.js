@@ -9,3 +9,7 @@ exports.dataType = {
   url: { type: "string" },
   phone: { type: "string" },
 };
+
+exports.generateAuthToken = () => {
+  return Math.floor(100000 + Math.random() * 900000);
+};

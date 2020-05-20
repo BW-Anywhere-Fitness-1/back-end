@@ -7,9 +7,9 @@ class AuthenticationCode extends Model {
     this.tableName = "authentication_codes";
     this.jsonSchema = {
       type: "object",
-      required: ["name"],
+      required: ["code"],
       properties: {
-        name: dataType.string,
+        code: dataType.integer,
       },
     };
   }

@@ -1,7 +1,8 @@
 exports.up = function (knex) {
   return knex.schema.createTable("authentication_codes", (table) => {
     table.increments();
-    table.string("code");
+    table.string("email").notNullable();
+    table.integer("code").notNullable();
     table.timestamps(true, true);
   });
 };

@@ -4,7 +4,7 @@ const knex = require("knex");
 function errorHandler(err, req, res, next) {
   if (err instanceof ValidationError) {
     res.status(400).json({
-      message: "Validation error",
+      message: err.message || "Validation error",
       fields: err.data,
     });
     return false;
