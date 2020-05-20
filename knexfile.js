@@ -10,13 +10,14 @@ module.exports = {
       tableName: "knex_migrations",
       directory: "./database/migrations",
     },
-    seed: {
+    seeds: {
       directory: "./database/seeds",
     },
   },
 
   production: {
     client: "pg",
+    useNullAsDefault: true,
     connection: {
       host: process.env.DATABASE_HOST,
       database: process.env.DATABASE_NAME,
@@ -31,7 +32,7 @@ module.exports = {
       tableName: "knex_migrations",
       directory: "./database/migrations",
     },
-    seed: {
+    seeds: {
       directory: "./database/seeds",
     },
   },
