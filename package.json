@@ -25,6 +25,7 @@
     "sqlite3": "^4.2.0"
   },
   "scripts": {
+    "prestart": "npm run migrate && npm run seed",
     "start": "node cross-env NODE_ENV=production start server.js",
     "start:dev": "cross-env NODE_ENV=development nodemon -r dotenv/config server.js",
     "test": "cross-env NODE_ENV=test npm run migrate && npm run seed && jest --runInBand --detectOpenHandles --forceExit",
