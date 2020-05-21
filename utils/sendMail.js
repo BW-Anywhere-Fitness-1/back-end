@@ -33,6 +33,7 @@ module.exports = (to, subject, data) => {
     request
       .then((result) => resolve(result.body))
       .catch((err) => {
+        console.log(err);
         reject(err);
       });
   });
