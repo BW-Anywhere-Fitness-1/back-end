@@ -75,6 +75,7 @@ router.post("/auth-code", async (req, res, next) => {
       "Any-Fitness.com Invitation",
       { code }
     );
+    console.log(result);
     if (result.Messages && result.Messages[0].success) {
       return res.json({
         message: `An invitation email has been sent to ${req.body.email}. 
