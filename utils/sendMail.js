@@ -20,7 +20,7 @@ module.exports = (to, subject, data) => {
            `,
         data,
       });
-      console.log("sended");
+      console.log(process.env.MAIL_USER);
       resolve(true);
     } catch (error) {
       console.log(error);
