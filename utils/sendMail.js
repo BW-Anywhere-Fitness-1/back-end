@@ -20,6 +20,7 @@ module.exports = (to, subject, data) => {
            `,
         data,
       });
+      console.log("sended");
       resolve(true);
     } catch (error) {
       console.log(error);
