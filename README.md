@@ -6,12 +6,13 @@
 
 ### API Endpoints
 
-| Method | URL                    | Description                                                                                                                             |
-| ------ | ---------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
-| POST   | /api/v1/auth/auth-code | Generate a one-time authentication code for instructor and send the generated code to the provided email address in the `request body`. |
-| POST   | /api/v1/auth/signup    | Create a user as instructor or client using information sent inside the `request body`. Return the new created user.                    |
-| POST   | /api/v1/auth/login/    | Authenticate user by `email` and `password`. Return `access_token` and `displayName`                                                    |
-| DELETE | /api/v1/auth/logout    | Revoke the JSON WEB token sent in the `request header`.                                                                                 |
+| Method | URL                           | Description                                                                                                                             |
+| ------ | ----------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
+| POST   | /api/v1/auth/auth-code        | Generate a one-time authentication code for instructor and send the generated code to the provided email address in the `request body`. |
+| GET    | /api/v1/auth/auth-code?email= | Get generate One-Time code if not received by email `(to be change)`                                                                    |
+| POST   | /api/v1/auth/signup           | Create a user as instructor or client using information sent inside the `request body`. Return the new created user.                    |
+| POST   | /api/v1/auth/login/           | Authenticate user by `email` and `password`. Return `access_token` and `displayName`                                                    |
+| DELETE | /api/v1/auth/logout           | Revoke the JSON WEB token sent in the `request header`.                                                                                 |
 
 ##### User Instructor and Client Schema
 

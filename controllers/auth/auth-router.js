@@ -70,12 +70,34 @@ router.post("/auth-code", async (req, res, next) => {
     }
     const code = generateAuthToken();
     await AuthenticationCode.insert({ email: req.body.email, code });
-    await sendMail(req.body.email, "Any-Fitness.com Invitation", { code });
-
-    res.json({
-      message: `An invitation email has been sent to ${req.body.email}. 
+    const result = await sendMail(
+      req.body.email,
+      "Any-Fitness.com Invitation",
+      { code }
+    );
+    if (result.Messages && result.Messages[0].success) {
+      return res.json({
+        message: `An invitation email has been sent to ${req.body.email}. 
       Check your junk folder if you did not see the email in your main inbox.`,
-    });
+      });
+    } else {
+      if (process.env.NODE_ENV === "test") {
+        return res.json({ status: "ok" });
+      }
+      return res
+        .status(500)
+        .json({ message: "We are unable to send the one-time auth code." });
+    }
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.get("/auth-code", async (req, res, next) => {
+  try {
+    const email = req.query.email;
+    const code = await AuthenticationCode.query().where({ email }).first();
+    res.json(code);
   } catch (error) {
     next(error);
   }

@@ -1,6 +1,5 @@
 const request = require("supertest");
 const app = require("../../app");
-const AuthCode = require("../../models/AuthenticationCode");
 const { userData } = require("./index");
 
 exports.authCode = async () => {
@@ -9,5 +8,14 @@ exports.authCode = async () => {
     .send({ email: userData.email })
     .expect(200);
 
-  return await AuthCode.query().where("email", userData.email).first();
+  const response = await request(app).get(
+    `/api/v1/auth/auth-code?email=${userData.email}`
+  );
+
+  expect(response.status).toBe(200);
+  expect(response.type).toBe("application/json");
+  expect(response.body.email).toBe(userData.email);
+  expect(response.body.code).toBeTruthy();
+
+  return response.body;
 };
