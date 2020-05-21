@@ -5,7 +5,7 @@ const { userData } = require("./index");
 
 exports.authCode = async () => {
   await request(app)
-    .post("/api/auth/auth-code")
+    .post("/api/v1/auth/auth-code")
     .send({ email: userData.email })
     .expect(200);
 

@@ -11,7 +11,7 @@ exports.up = function (knex) {
       .onUpdate("CASCADE");
     table.string("first_name").notNullable();
     table.string("last_name").notNullable();
-    table.string("email").notNullable();
+    table.string("email").notNullable().unique();
     table.string("password").notNullable();
     table.string("phone").nullable();
     table.string("gender").nullable();

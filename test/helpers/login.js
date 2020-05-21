@@ -9,14 +9,14 @@ exports.client = async () => {
     role_id: 2,
   };
 
-  await request(app).post("/api/auth/signup").send(payload).expect(201);
+  await request(app).post("/api/v1/auth/signup").send(payload).expect(201);
 
   return await login();
 };
 
 exports.instructor = async (credentials) => {
   await request(app)
-    .post("/api/auth/auth-code")
+    .post("/api/v1/auth/auth-code")
     .send({ email: userData.email })
     .expect(200);
 
@@ -30,7 +30,7 @@ exports.instructor = async (credentials) => {
     authCode: authCode.code,
   };
 
-  await request(app).post("/api/auth/signup").send(payload).expect(201);
+  await request(app).post("/api/v1/auth/signup").send(payload).expect(201);
 
   return await login(credentials);
 };
@@ -40,5 +40,5 @@ async function login(payload) {
     email: userData.email,
     password: userData.password,
   };
-  return await request(app).post("/api/auth/login").send(credentials);
+  return await request(app).post("/api/v1/auth/login").send(credentials);
 }

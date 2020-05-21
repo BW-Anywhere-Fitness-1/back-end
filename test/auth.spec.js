@@ -18,14 +18,14 @@ describe("testing authentication", () => {
   });
 
   describe("signup", () => {
-    it("POST /api/auth/signup Client: should return 201 when ok", async () => {
+    it("POST /api/v1/auth/signup Client: should return 201 when ok", async () => {
       const payload = {
         ...userData,
         role_id: 2,
       };
 
       const response = await request(app)
-        .post("/api/auth/signup")
+        .post("/api/v1/auth/signup")
         .send(payload);
 
       expect(response.status).toBe(201);
@@ -33,7 +33,7 @@ describe("testing authentication", () => {
       expect(response.body.email).toBe(userData.email);
     });
 
-    it("POST /api/auth/signup Instructor: should return 201 when ok", async () => {
+    it("POST /api/v1/auth/signup Instructor: should return 201 when ok", async () => {
       const code = (await authCode()).code;
 
       const payload = {
@@ -43,7 +43,7 @@ describe("testing authentication", () => {
       };
 
       const response = await request(app)
-        .post("/api/auth/signup")
+        .post("/api/v1/auth/signup")
         .send(payload);
 
       expect(response.status).toBe(201);
@@ -51,7 +51,7 @@ describe("testing authentication", () => {
       expect(response.body.email).toBe(userData.email);
     });
 
-    it("POST /api/auth/signup Instructor: should return 403 when not one time authentication", async () => {
+    it("POST /api/v1/auth/signup Instructor: should return 403 when not one time authentication", async () => {
       const code = (await authCode()).code;
 
       const payload = {
@@ -62,7 +62,7 @@ describe("testing authentication", () => {
       };
 
       const response = await request(app)
-        .post("/api/auth/signup")
+        .post("/api/v1/auth/signup")
         .send(payload);
 
       expect(response.status).toBe(403);
@@ -70,7 +70,7 @@ describe("testing authentication", () => {
       expect(response.body.message).toBe("Authentication code doest not found");
     });
 
-    it("POST /api/auth/signup Instructor: should return 401 when validation failed", async () => {
+    it("POST /api/v1/auth/signup Instructor: should return 401 when validation failed", async () => {
       const code = (await authCode()).code;
 
       const { first_name, ...rest } = userData;
@@ -84,7 +84,7 @@ describe("testing authentication", () => {
       };
 
       const response = await request(app)
-        .post("/api/auth/signup")
+        .post("/api/v1/auth/signup")
         .send(payload);
 
       expect(response.status).toBe(400);
@@ -95,7 +95,7 @@ describe("testing authentication", () => {
   });
 
   describe("login", () => {
-    it("POST /api/auth/login Client: should return 200", async () => {
+    it("POST /api/v1/auth/login Client: should return 200", async () => {
       const response = await login.client();
 
       expect(response.status).toBe(200);
@@ -106,7 +106,7 @@ describe("testing authentication", () => {
       );
     });
 
-    it("POST /api/auth/login Instructor: should return 200", async () => {
+    it("POST /api/v1/auth/login Instructor: should return 200", async () => {
       const response = await login.instructor();
 
       expect(response.status).toBe(200);
@@ -117,7 +117,7 @@ describe("testing authentication", () => {
       );
     });
 
-    it("POST /api/auth/login Instructor: should return 403 when bad credentials", async () => {
+    it("POST /api/v1/auth/login Instructor: should return 403 when bad credentials", async () => {
       const response = await login.instructor({
         email: "foo.bar@fake.com",
         password: "145239",
@@ -132,8 +132,8 @@ describe("testing authentication", () => {
   });
 
   describe("logout", () => {
-    it("DELETE /api/auth/logout", async () => {
-      const response = await req("delete", "/api/auth/logout", "client");
+    it("DELETE /api/v1/auth/logout", async () => {
+      const response = await req("delete", "/api/v1/auth/logout", "client");
 
       expect(response.status).toBe(200);
     });
