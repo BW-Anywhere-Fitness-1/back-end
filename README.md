@@ -2,7 +2,7 @@
 
 ### API URL
 
-[https://api.any-fitness.com](https://api.any-fitness.com)
+[https://any-fitness.herokuapp.com/](https://any-fitness.herokuapp.com/)
 
 ### API Endpoints
 
