@@ -54,7 +54,7 @@ router.post("/login", async (req, res, next) => {
   }
 });
 
-router.get("/logout", authentication, async (req, res, next) => {
+router.delete("/logout", authentication, async (req, res, next) => {
   try {
     await RevokedToken.insert({ token: req.token });
     res.json({ message: "Successful logged out." });

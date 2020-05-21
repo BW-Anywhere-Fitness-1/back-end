@@ -129,8 +129,8 @@ describe("testing authentication", () => {
   });
 
   describe("logout", () => {
-    it("GET /api/auth/logout", async () => {
-      const response = await req("get", "/api/auth/logout", "client");
+    it("DELETE /api/auth/logout", async () => {
+      const response = await req("delete", "/api/auth/logout", "client");
 
       expect(response.status).toBe(200);
     });
