@@ -19,10 +19,11 @@
     "mail-sender": "git+https://github.com/danielkanangila/mail-sender.git#master",
     "nodemon": "^2.0.4",
     "pg": "^8.2.1",
-    "sqlite3": "^4.2.0",
     "supertest": "^4.0.2"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "sqlite3": "^4.2.0"
+  },
   "scripts": {
     "start": "node cross-env NODE_ENV=production start server.js",
     "start:dev": "cross-env NODE_ENV=development nodemon -r dotenv/config server.js",
