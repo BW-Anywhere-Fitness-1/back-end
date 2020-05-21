@@ -1,6 +1,7 @@
 const { Validator } = require("jsonschema");
 const knex = require("./db-config");
 const ValidationError = require("../errors/ValidationError");
+const DatabaseError = require("./../errors/DatabaseError");
 
 class Model {
   constructor() {
@@ -13,38 +14,61 @@ class Model {
     return knex(this.tableName);
   }
 
-  findAll() {
-    return this.query();
-  }
-
-  findById(id) {
-    return this.query().where({ id }).first();
-  }
-
-  insert(payload) {
-    const v = this.validator.validate(payload, this.jsonSchema);
-    if (v.errors.length) {
-      throw new ValidationError(v.errors);
+  async findAll() {
+    try {
+      const result = await this.query();
+      return result;
+    } catch (error) {
+      throw new DatabaseError(error.message);
     }
-    return this.query()
-      .insert(payload)
-      .then((ids) => this.findById(ids[0]));
   }
 
-  update(id, payload) {
-    const v = this.validator.validate(payload, this.jsonSchema);
-    if (v.errors.length) {
-      throw new ValidationError(v.errors);
+  async findById(id) {
+    try {
+      const result = await this.query().where({ id }).first();
+      return result;
+    } catch (error) {
+      throw new DatabaseError(error.message);
     }
-    return this.query()
-      .where({ id })
-      .update(payload)
-      .then(() => this.findById(id));
+  }
+
+  async insert(payload) {
+    this.$validate(payload);
+    try {
+      const result = await this.query().insert(payload).returning("*");
+      return result;
+    } catch (error) {
+      throw new DatabaseError(error.message);
+    }
+  }
+
+  async update(id, payload) {
+    this.$validate(payload);
+    try {
+      const result = await this.query()
+        .where({ id })
+        .update(payload)
+        .returning("*");
+      return result;
+    } catch (error) {
+      throw new DatabaseError(error.message);
+    }
   }
 
   async del(id) {
-    await this.query().where({ id }).del();
-    return id;
+    try {
+      await this.query().where({ id }).del();
+      return id;
+    } catch (error) {
+      throw new DatabaseError(error.message);
+    }
+  }
+
+  $validate(data) {
+    const v = this.validator.validate(data, this.jsonSchema);
+    if (v.errors.length) {
+      throw new ValidationError(v.errors);
+    }
   }
 }
 

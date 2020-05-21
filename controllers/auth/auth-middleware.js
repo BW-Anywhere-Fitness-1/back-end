@@ -27,7 +27,7 @@ module.exports = async (req, res, next) => {
 
       req.user = await User.findById(decodePayload.subject);
 
-      if (!user) {
+      if (!req.user) {
         return res.status(403).json({ message: "Invalid access token." });
       }
 

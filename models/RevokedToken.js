@@ -4,7 +4,7 @@ const { dataType } = require("./../utils");
 class RevokedToken extends Model {
   constructor() {
     super();
-    this.tableName = "authentication_codes";
+    this.tableName = "revoked_tokens";
     this.jsonSchema = {
       type: "object",
       required: ["token"],
