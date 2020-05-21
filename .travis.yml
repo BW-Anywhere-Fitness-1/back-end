@@ -11,9 +11,5 @@ before_script:
   - psql -c 'create database fitness_ci_test;' -U postgres
 env:
   global:
-    - DATABASE_NAME=fitness_ci_test
-    - DATABASE_HOST=localhost
-    - DATABASE_PORT=5433
-    - DATABASE_USER=postgres
-    - DATABASE_PASSWORD=
+    - DB_CONNECTION=postgres://postgres@localhost/fitness_ci_test
     - secure: l6gDFI+/GvYxYeJvblpO3TkUDGePWrVfZxWG3qyKDFBJLyFao9rloi8lTfBUH/jeCERkrsMo8dgJt+OTpPlABNDUa3giCwQhfj3jqujFmISVWHQ7swaDcldOt0CW5YZVR7Gp+yieSh+HgnQXADXR4N1G7LSDEw3d+zCPA0aUIa+m5Sl28JLK4B1J/d+xfzLw0tNIb7NyqMqKGY+xAmVO/L5TfFp0HhsUmWUUHNyDd9iBIh8L4LPc9E41ICZQoxu/Neb0ZSO8ZLLXZrMj+k4q1KxEsii8Rm4iGNOcjqtFykld+zAVzlhpzhT6R/+56869AinzMY/Q0fMEpfe+6ICLgQZaFoE9uaGaO80G9fH/sdTRclvfggz6NezSzeEW9sZ8CUOtx67d3k7Ce6It/PeQZbUe9QvJ6VRxQwthzA3iwqWrXdyx7snj9ENiLgjQhrlARxoQszTTamNwi4IFnpxnmWV5QNbzbaLCbrkZfCu2/TMNtCixtwgkXHNPvXfMrPLPkXK/uQ63Dds5tfHmkQedGTfGQj8eeUITtBaJSrnekixGxp+9OObHksE1F0P6xIVaGh69ez/WF15XnMtAbRmIJGOHzlOxtaGPqV75AJhY2FbbvDWLtN7JSR871ErLSsSLCki3W198gKAuouApkXpGI9uQYSSJxDWEgcYhvW+77wI=
