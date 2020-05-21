@@ -13,6 +13,9 @@ describe("testing authentication", () => {
     await User.query().delete();
     await AuthCode.query().delete();
   });
+  afterAll(async (done) => {
+    done();
+  });
 
   describe("signup", () => {
     it("POST /api/auth/signup Client: should return 201 when ok", async () => {

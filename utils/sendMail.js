@@ -1,6 +1,7 @@
 const sendMail = require("mail-sender");
 
 module.exports = (to, subject, data) => {
+  console.log(process.env.MAIL_USER);
   return new Promise(async (resolve, reject) => {
     try {
       await sendMail({
