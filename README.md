@@ -1,4 +1,4 @@
-# back-end
+# back-end [![Build Status](https://travis-ci.com/BW-Anywhere-Fitness-1/back-end.svg?branch=dev)](https://travis-ci.com/BW-Anywhere-Fitness-1/back-end)
 
 ### API URL
 
