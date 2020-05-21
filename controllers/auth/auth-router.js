@@ -76,7 +76,7 @@ router.post("/auth-code", async (req, res, next) => {
       { code }
     );
     console.log(result);
-    if (result.Messages && result.Messages[0].success) {
+    if (result.Messages && result.Messages[0].Status === "success") {
       return res.json({
         message: `An invitation email has been sent to ${req.body.email}. 
       Check your junk folder if you did not see the email in your main inbox.`,
