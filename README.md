@@ -15,7 +15,7 @@
 
 ##### User Instructor and Client Schema
 
-```json
+```javascript
 {
   role_id: 3, // integer references id in user_roles table | required
   first_name: "Dan", // string, minLent=2 | required
