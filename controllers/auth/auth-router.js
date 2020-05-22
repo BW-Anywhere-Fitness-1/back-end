@@ -75,7 +75,7 @@ router.post("/auth-code", async (req, res, next) => {
       "Any-Fitness.com Invitation",
       { code }
     );
-    console.log(result);
+
     if (result.Messages && result.Messages[0].Status === "success") {
       return res.json({
         message: `An invitation email has been sent to ${req.body.email}. 
@@ -98,6 +98,9 @@ router.get("/auth-code", async (req, res, next) => {
   try {
     const email = req.query.email;
     const code = await AuthenticationCode.query().where({ email }).first();
+    if (!code) {
+      return res.status(404).json({ message: "auth-code not found" });
+    }
     res.json(code);
   } catch (error) {
     next(error);

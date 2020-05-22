@@ -35,6 +35,7 @@ class Model {
   async insert(payload) {
     this.$validate(payload);
     try {
+      payload = this.beforeCreate(payload);
       const result = await this.query().insert(payload).returning("*");
       return result;
     } catch (error) {
@@ -62,6 +63,10 @@ class Model {
     } catch (error) {
       throw new DatabaseError(error.message);
     }
+  }
+
+  beforeCreate(data) {
+    return data;
   }
 
   $validate(data) {
