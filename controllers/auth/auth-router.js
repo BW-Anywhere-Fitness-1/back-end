@@ -8,7 +8,6 @@ const UserRole = require("./../../models/UserRole");
 const authentication = require("./auth-middleware");
 const sendMail = require("./../../utils/sendMail");
 const { generateAuthToken } = require("./../../utils");
-const DatabaseError = require("./../../errors/DatabaseError");
 
 router.post("/signup", verifyAuthCode, async (req, res, next) => {
   try {
@@ -79,7 +78,8 @@ router.post("/auth-code", async (req, res, next) => {
     if (result.Messages && result.Messages[0].Status === "success") {
       return res.json({
         message: `An invitation email has been sent to ${req.body.email}. 
-      Check your junk folder if you did not see the email in your main inbox.`,
+      Check your junk folder if you did not see the email in your main inbox. 
+      It may take up to 24h to receive the invitation.`,
       });
     } else {
       if (process.env.NODE_ENV === "test") {
