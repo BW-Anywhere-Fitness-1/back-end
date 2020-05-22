@@ -38,6 +38,44 @@ class Classes extends Model {
     };
   }
 
+  related() {
+    return this.query()
+      .join("class_levels as l", "l.id", "classes.level")
+      .join("class_type as t", "t.id", "classes.type")
+      .select(
+        "classes.id",
+        "classes.name",
+        "t.name as type",
+        "classes.start_time",
+        "classes.duration",
+        "l.name as level",
+        "classes.location",
+        "classes.attendees",
+        "classes.max_size",
+        "classes.schedule",
+        "classes.description",
+        "classes.cerated_at"
+      );
+  }
+
+  findAll() {
+    return this.related();
+  }
+
+  findById(id) {
+    return this.related().where({ id }).first();
+  }
+
+  search(q) {
+    return this.related()
+      .where("classes.name", "like", `%${q}%`)
+      .orWhere("classes.schedule", "like", `%${q}%`)
+      .orWhere("classes.duration", "like", `%${q}%`)
+      .orWhere("classes.location", "like", `%${q}%`)
+      .orWhere("t.name", "like", `%${q}%`)
+      .orWhere("l.name", "like", `%${q}%`);
+  }
+
   beforeCreate(payload) {
     return {
       ...payload,

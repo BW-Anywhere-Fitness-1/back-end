@@ -1,46 +1,19 @@
+const BaseController = require("./BaseController");
 const Classes = require("./../models/Classes");
-const ClassesInstructor = require("./../models/ClassesInstructor");
 
-class ClassesController {
-  index(req, res, next) {
-    try {
-    } catch (error) {
-      next(error);
-    }
+class ClassesController extends BaseController {
+  constructor() {
+    super(Classes);
   }
 
-  show(req, res, next) {
+  async search(req, res, next) {
     try {
-    } catch (error) {
-      next(error);
-    }
-  }
-
-  search(req, res, next) {
-    try {
-    } catch (error) {
-      next(error);
-    }
-  }
-
-  create(req, res, next) {
-    try {
-    } catch (error) {
-      next(error);
-    }
-  }
-
-  update(req, res, next) {
-    try {
-    } catch (error) {
-      next(error);
-    }
-  }
-
-  del(req, res, next) {
-    try {
+      const result = await Classes.search(req.query.q);
+      res.json(result);
     } catch (error) {
       next(error);
     }
   }
 }
+
+module.exports = new ClassesController();
