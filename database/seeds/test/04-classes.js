@@ -1,0 +1,40 @@
+exports.seed = (knex) => {
+  return knex("classes").insert([
+    {
+      name: "Judo",
+      type: 2,
+      start_time: "15:00:00",
+      duration: "00:30:00",
+      level: 1,
+      location: "600 Deer Field Trace, Mebane, NC 27302",
+      attendees: 5,
+      max_size: 1,
+      schedule: "Monday | Wednesday | Thursday",
+      description: "Martial art for beginner",
+    },
+    {
+      name: "Yoga",
+      type: 1,
+      start_time: "6:00:00",
+      duration: "00:30:00",
+      level: 2,
+      location: "600 Deer Field Trace, Durham, NC 27302",
+      attendees: 5,
+      max_size: 1,
+      schedule: "Monday | Tuesday | Thursday",
+      description: "Yoga Intermediate",
+    },
+    {
+      name: "Dance",
+      type: 3,
+      start_time: "17:00:00",
+      duration: "0:45:00",
+      level: 3,
+      location: "600 Deer Field Trace, Raleigh, NC 27302",
+      attendees: 5,
+      max_size: 1,
+      schedule: "Monday | Thursday | Sunday",
+      description: "Cardio Dance for advanced",
+    },
+  ]);
+};

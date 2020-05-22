@@ -15,13 +15,13 @@ module.exports = {
   },
   test: {
     client: "pg",
-    connection: process.env.DB_CONNECTION,
+    connection: process.env.DATABASE_URL,
     migrations: {
       tableName: "knex_migrations",
       directory: "./database/migrations",
     },
     seeds: {
-      directory: "./database/seeds",
+      directory: "./database/seeds/test",
     },
   },
 
