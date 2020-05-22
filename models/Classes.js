@@ -1,7 +1,6 @@
 const Model = require("../database/Model");
 const jsonschema = require("jsonschema");
 const { dataType } = require("./../utils");
-const ClassesInstructor = require("./ClassesInstructor");
 
 class Classes extends Model {
   constructor() {
@@ -41,7 +40,7 @@ class Classes extends Model {
   related() {
     return this.query()
       .join("class_levels as l", "l.id", "classes.level")
-      .join("class_type as t", "t.id", "classes.type")
+      .join("class_types as t", "t.id", "classes.type")
       .select(
         "classes.id",
         "classes.name",
@@ -54,7 +53,7 @@ class Classes extends Model {
         "classes.max_size",
         "classes.schedule",
         "classes.description",
-        "classes.cerated_at"
+        "classes.created_at"
       );
   }
 
@@ -63,14 +62,15 @@ class Classes extends Model {
   }
 
   findById(id) {
-    return this.related().where({ id }).first();
+    return this.related().where("classes.id", id).first();
   }
 
   search(q) {
     return this.related()
       .where("classes.name", "like", `%${q}%`)
       .orWhere("classes.schedule", "like", `%${q}%`)
-      .orWhere("classes.duration", "like", `%${q}%`)
+      .orWhereRaw("classes.start_time::text like ?", `%${q}%`)
+      .orWhereRaw("classes.duration::text like ?", `%${q}%`)
       .orWhere("classes.location", "like", `%${q}%`)
       .orWhere("t.name", "like", `%${q}%`)
       .orWhere("l.name", "like", `%${q}%`);

@@ -24,7 +24,7 @@ class BaseController {
   async create(req, res, next) {
     try {
       const classes = await this.model.insert(req.body);
-      res.json(classes);
+      res.status(201).json(classes);
     } catch (error) {
       next(error);
     }
@@ -42,9 +42,11 @@ class BaseController {
   async remove(req, res, next) {
     try {
       await this.model.del(req.params.id);
-      res.json({ id: req.params.id });
+      res.json({ id: parseInt(req.params.id) });
     } catch (error) {
       next(error);
     }
   }
 }
+
+module.exports = BaseController;

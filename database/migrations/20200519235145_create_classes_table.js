@@ -7,11 +7,11 @@ exports.up = function (knex) {
       .notNullable()
       .unsigned()
       .references("id")
-      .inTable("class_levels")
+      .inTable("class_types")
       .onDelete("CASCADE")
       .onUpdate("CASCADE");
     table.time("start_time").notNullable();
-    table.string("duration").notNullable();
+    table.time("duration").notNullable();
     table
       .integer("level")
       .notNullable()
@@ -23,7 +23,7 @@ exports.up = function (knex) {
     table.string("location").notNullable();
     table.integer("attendees").notNullable().default(0);
     table.integer("max_size").notNullable();
-    table.integer("schedules").notNullable();
+    table.string("schedule").notNullable();
     table.text("description").nullable();
     table.timestamps(true, true);
   });
