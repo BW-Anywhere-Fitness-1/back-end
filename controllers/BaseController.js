@@ -47,6 +47,15 @@ class BaseController {
       next(error);
     }
   }
+
+  async search(req, res, next) {
+    try {
+      const result = await this.model.search(req.query.q);
+      res.json(result);
+    } catch (error) {
+      next(error);
+    }
+  }
 }
 
 module.exports = BaseController;

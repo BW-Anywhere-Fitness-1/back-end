@@ -8,6 +8,7 @@ class Model {
     this.tableName = "";
     this.jsonSchema = {};
     this.validator = new Validator();
+    this.relationMap = {};
   }
 
   query() {
@@ -35,8 +36,9 @@ class Model {
   async insert(payload) {
     this.$validate(payload);
     try {
-      payload = this.beforeCreate(payload);
+      payload = await this.beforeCreate(payload);
       const result = await this.query().insert(payload).returning("*");
+      this.afterCreate(result);
       return result;
     } catch (error) {
       throw new DatabaseError(error.message);
@@ -65,9 +67,11 @@ class Model {
     }
   }
 
-  beforeCreate(data) {
+  async beforeCreate(data) {
     return data;
   }
+
+  async afterCreate(data) {}
 
   $validate(data) {
     const v = this.validator.validate(data, this.jsonSchema);
@@ -75,6 +79,8 @@ class Model {
       throw new ValidationError(v.errors);
     }
   }
+
+  $related() {}
 }
 
 module.exports = Model;
