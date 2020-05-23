@@ -92,6 +92,14 @@ describe("testing authentication", () => {
       expect(response.body.message).toBe("Validation error");
       expect(response.body.fields).toHaveLength(3);
     });
+
+    it("GET /api/v1/auth/user-roles should return 200", async () => {
+      const response = await request(app).get("/api/v1/auth/user-roles");
+
+      expect(response.status).toBe(200);
+      expect(response.type).toBe("application/json");
+      expect(response.body).toHaveLength(3);
+    });
   });
 
   describe("login", () => {

@@ -8,6 +8,7 @@ const UserRole = require("./../../models/UserRole");
 const authentication = require("./auth-middleware");
 const sendMail = require("./../../utils/sendMail");
 const { generateAuthToken } = require("./../../utils");
+const UserRoleController = require("./../UseRoleController");
 
 router.post("/signup", verifyAuthCode, async (req, res, next) => {
   try {
@@ -106,6 +107,8 @@ router.get("/auth-code", async (req, res, next) => {
     next(error);
   }
 });
+
+router.get("/user-roles", UserRoleController.index.bind(UserRoleController));
 
 async function verifyAuthCode(req, res, next) {
   try {
