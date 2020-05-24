@@ -16,11 +16,36 @@ describe("testing registrations", () => {
     await Registration.query().delete();
     done();
   });
-  it("POST /api/v1/registration", async () => {
-    const response = await req("post", "/api/v1/registration", "client", {
+  it("GET /api/v1/registrations should return 200", async () => {
+    await req("post", "/api/v1/registrations", "client", {
+      class_id: 1,
+    });
+    await req("post", "/api/v1/registrations", "client", {
+      class_id: 2,
+    });
+
+    const response = await req("get", "/api/v1/registrations", "client");
+
+    expect(response.status).toBe(201);
+    expect(response.type).toBe("application/json");
+    //expect(response.body).toHaveLength(3);
+  });
+  it("POST /api/v1/registrations should return 200", async () => {
+    const response = await req("post", "/api/v1/registrations", "client", {
       class_id: 1,
     });
 
-    console.log(response.body);
+    expect(response.status).toBe(201);
+    expect(response.type).toBe("application/json");
+    expect(response.body).toBeTruthy();
+  });
+  it("POST /api/v1/registrations should return 403 when not logged in", async () => {
+    const response = await request(app).get("/api/v1/registrations").send({
+      class_id: 1,
+    });
+
+    expect(response.status).toBe(403);
+    expect(response.type).toBe("application/json");
+    expect(response.body.message).toBeTruthy();
   });
 });

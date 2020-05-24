@@ -37,11 +37,24 @@ class Registration extends Model {
   }
 
   async afterCreate(payload) {
-    const classes = await Classes.findById(payload.class_id);
-    await Classes.update(classes.id, {
+    const classes = await Classes.query()
+      .where("id", payload[0].class_id)
+      .first();
+    const data = {
       ...classes,
-      attendees: classes.attendees++,
-    });
+      schedule: classes.schedule.split("|").map((day) => day.trim()),
+      attendees: classes.attendees + 1,
+    };
+
+    Classes.update(classes.id, data)
+      .then((res) => {
+        if (!res[0].id)
+          throw new Registration(
+            "Unable to process registration. Unknown error."
+          );
+        return res;
+      })
+      .catch((err) => console.log(err));
   }
 }
 
