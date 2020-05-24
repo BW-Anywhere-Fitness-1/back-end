@@ -23,7 +23,8 @@ class BaseController {
 
   async create(req, res, next) {
     try {
-      const classes = await this.model.insert(req.body);
+      const reqBody = await this.beforeCreate(req);
+      const classes = await this.model.insert(reqBody);
       res.status(201).json(classes);
     } catch (error) {
       next(error);
@@ -55,6 +56,10 @@ class BaseController {
     } catch (error) {
       next(error);
     }
+  }
+
+  async beforeCreate(req) {
+    return req.body;
   }
 }
 
