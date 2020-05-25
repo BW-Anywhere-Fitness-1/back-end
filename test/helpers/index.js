@@ -1,5 +1,5 @@
 exports.userData = {
-  role_id: 1,
+  role_id: 2,
   first_name: "Dan",
   last_name: "Joe",
   email: "dan.joe@fakeGmail.com",

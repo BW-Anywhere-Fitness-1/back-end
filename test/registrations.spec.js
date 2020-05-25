@@ -20,9 +20,6 @@ describe("testing registrations", () => {
     await req("post", "/api/v1/registrations", "client", {
       class_id: 1,
     });
-    await req("post", "/api/v1/registrations", "client", {
-      class_id: 2,
-    });
 
     const response = await req("get", "/api/v1/registrations", "client");
 
