@@ -23,6 +23,8 @@
 | GET    | /api/v1/class-types           | return a list of class's types.                                                                                                                       |
 | POST   | /api/v1/class-types           | create a new class type by using the `name` sending in the request body. Return the new created type. **Only accessible by `Instructor` users**.      |
 | GET    | /api/v1/class-levels          | return a list of class's levels.                                                                                                                      |
+| GET    | /api/v1/registrations         | return a list registered client in class                                                                                                              |
+| POST   | /api/v1/registrations         | Register client in specific class by using the `class_id` sent in the `request body`.                                                                 |
 
 #### User Instructor and Client Schema
 

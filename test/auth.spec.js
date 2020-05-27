@@ -39,6 +39,7 @@ describe("testing authentication", () => {
       expect(response.status).toBe(201);
       expect(response.type).toBe("application/json");
       expect(response.body.email).toBe(payload.email);
+      expect(response.body.password).not.toBeTruthy();
     });
 
     it("POST /api/v1/auth/signup Instructor: should return 201 when ok", async () => {
@@ -59,6 +60,7 @@ describe("testing authentication", () => {
       expect(response.status).toBe(201);
       expect(response.type).toBe("application/json");
       expect(response.body.email).toBe(payload.email);
+      expect(response.body.password).not.toBeTruthy();
     });
 
     it("POST /api/v1/auth/signup Instructor: should return 403 when not one time authentication", async () => {
