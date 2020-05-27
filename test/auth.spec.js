@@ -3,15 +3,22 @@ const app = require("./../app");
 const User = require("./../models/User");
 const AuthCode = require("./../models/AuthenticationCode");
 const knex = require("./../database/db-config");
-const { authCode, userData, login, req } = require("./helpers");
+const {
+  authCode,
+  userData,
+  login,
+  req,
+  instructor,
+  client,
+} = require("./helpers");
 
 describe("testing authentication", () => {
   beforeAll(async () => {
     await knex.seed.run();
   });
   beforeEach(async () => {
-    await User.query().delete();
-    await AuthCode.query().delete();
+    //await User.query().delete();
+    //await AuthCode.query().delete();
   });
   afterAll(async (done) => {
     done();
@@ -22,6 +29,7 @@ describe("testing authentication", () => {
       const payload = {
         ...userData,
         role_id: 2,
+        email: `1246${userData.email}`,
       };
 
       const response = await request(app)
@@ -30,16 +38,18 @@ describe("testing authentication", () => {
 
       expect(response.status).toBe(201);
       expect(response.type).toBe("application/json");
-      expect(response.body.email).toBe(userData.email);
+      expect(response.body.email).toBe(payload.email);
     });
 
     it("POST /api/v1/auth/signup Instructor: should return 201 when ok", async () => {
-      const code = (await authCode()).code;
+      const email = `1245${userData.email}`;
+      const code = (await authCode(email)).code;
 
       const payload = {
         ...userData,
         role_id: 3,
         authCode: code,
+        email,
       };
 
       const response = await request(app)
@@ -48,11 +58,12 @@ describe("testing authentication", () => {
 
       expect(response.status).toBe(201);
       expect(response.type).toBe("application/json");
-      expect(response.body.email).toBe(userData.email);
+      expect(response.body.email).toBe(payload.email);
     });
 
     it("POST /api/v1/auth/signup Instructor: should return 403 when not one time authentication", async () => {
-      const code = (await authCode()).code;
+      const email = `1245${userData.email}`;
+      const code = (await authCode(email)).code;
 
       const payload = {
         ...userData,
@@ -71,7 +82,8 @@ describe("testing authentication", () => {
     });
 
     it("POST /api/v1/auth/signup Instructor: should return 401 when validation failed", async () => {
-      const code = (await authCode()).code;
+      const email = `1245${userData.email}`;
+      const code = (await authCode(email)).code;
 
       const { first_name, ...rest } = userData;
 
@@ -79,6 +91,7 @@ describe("testing authentication", () => {
         ...rest,
         role_id: 3,
         authCode: code,
+        email,
         last_name: 13,
         password: "ad1251258",
       };
@@ -104,29 +117,25 @@ describe("testing authentication", () => {
 
   describe("login", () => {
     it("POST /api/v1/auth/login Client: should return 200", async () => {
-      const response = await login.client();
+      const response = await login(client);
 
       expect(response.status).toBe(200);
       expect(response.type).toBe("application/json");
       expect(response.body.access_token).toBeTruthy();
-      expect(response.body.displayName).toBe(
-        `${userData.first_name} ${userData.last_name}`
-      );
+      expect(response.body.displayName).toBeTruthy();
     });
 
     it("POST /api/v1/auth/login Instructor: should return 200", async () => {
-      const response = await login.instructor();
+      const response = await login(instructor);
 
       expect(response.status).toBe(200);
       expect(response.type).toBe("application/json");
       expect(response.body.access_token).toBeTruthy();
-      expect(response.body.displayName).toBe(
-        `${userData.first_name} ${userData.last_name}`
-      );
+      expect(response.body.displayName).toBeTruthy();
     });
 
     it("POST /api/v1/auth/login Instructor: should return 403 when bad credentials", async () => {
-      const response = await login.instructor({
+      const response = await login({
         email: "foo.bar@fake.com",
         password: "145239",
       });

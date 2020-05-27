@@ -21,7 +21,7 @@ exports.instructor = async (credentials) => {
     .expect(200);
 
   const authCode = await AuthCode.query()
-    .where("email", userData.email)
+    .where("email", credentials.email)
     .first();
 
   const payload = {

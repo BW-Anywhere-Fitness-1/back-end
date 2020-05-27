@@ -10,7 +10,7 @@ describe("testing classes", () => {
     await knex.seed.run();
   });
   beforeEach(async () => {
-    await User.query().delete();
+    //await User.query().delete();
   });
   afterAll(async (done) => {
     await Classes.query().delete();

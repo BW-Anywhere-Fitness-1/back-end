@@ -34,6 +34,16 @@ exports.badClassSample = {
   description: 5,
 };
 
+exports.client = {
+  email: "foo.bar@fakeGmail.com",
+  password: "@dmin859N",
+};
+
+exports.instructor = {
+  email: "bob.alice@fakeGmail.com",
+  password: "@dmin859N",
+};
+
 exports.authCode = require("./auth-code").authCode;
-exports.login = require("./login");
+exports.login = require("./login").login;
 exports.req = require("./request");
