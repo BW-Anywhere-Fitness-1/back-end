@@ -13,12 +13,18 @@
 | POST   | /api/v1/auth/signup           | Create a user as instructor or client using information sent inside the `request body`. Return the new created user.                                  |
 | POST   | /api/v1/auth/login/           | Authenticate user by `email` and `password`. Return `access_token` and `displayName`                                                                  |
 | DELETE | /api/v1/auth/logout           | Revoke the JSON WEB token sent in the `request header`.                                                                                               |
-| POST   | /api/v1/classes               | Create class using the information sent in the `request body` and return the created class. **Only accessible for `Instructor` user**.                |
-| PUT    | /api/v1/classes/:id           | Update class where the `id` match with the `id` passing in `request` and return the updated class. **Only accessible for `Instructor` user**.         |
-| DELETE | /api/v1/classes/:id           | Delete class where the `id` match with the `id` passing in `request` and return the `id` of deleted class. **Only accessible for `Instructor` user**. |
+| POST   | /api/v1/classes               | Create class using the information sent in the `request body` and return the created class. **Only accessible by `Instructor` users**.                |
+| PUT    | /api/v1/classes/:id           | Update class where the `id` match with the `id` passing in `request` and return the updated class. **Only accessible by `Instructor` users**.         |
+| DELETE | /api/v1/classes/:id           | Delete class where the `id` match with the `id` passing in `request` and return the `id` of deleted class. **Only accessible by `Instructor` users**. |
 | GET    | /api/v1/classes               | return list of classes. User must be authenticated.                                                                                                   |
 | GET    | /api/v1/classes:id            | return class where the `id` match with the `id` passing in `request`. User must be authenticated.                                                     |
 | GET    | /api/v1/search/classes?q=     | return list of classes matched with the `query`. User must be authenticated.                                                                          |
+| GET    | /api/v1/auth/user-roles       | return a list of user roles.                                                                                                                          |
+| GET    | /api/v1/class-types           | return a list of class's types.                                                                                                                       |
+| POST   | /api/v1/class-types           | create a new class type by using the `name` sending in the request body. Return the new created type. **Only accessible by `Instructor` users**.      |
+| GET    | /api/v1/class-levels          | return a list of class's levels.                                                                                                                      |
+| GET    | /api/v1/registrations         | return a list registered client in class                                                                                                              |
+| POST   | /api/v1/registrations         | Register client in specific class by using the `class_id` sent in the `request body`.                                                                 |
 
 #### User Instructor and Client Schema
 

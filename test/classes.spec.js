@@ -4,14 +4,13 @@ const app = require("./../app");
 const knex = require("./../database/db-config");
 const Classes = require("./../models/Classes");
 const User = require("./../models/User");
-const ClassType = require("./../models/ClassesType");
 
 describe("testing classes", () => {
   beforeAll(async () => {
     await knex.seed.run();
   });
   beforeEach(async () => {
-    await User.query().delete();
+    //await User.query().delete();
   });
   afterAll(async (done) => {
     await Classes.query().delete();
@@ -190,5 +189,30 @@ describe("testing classes", () => {
     expect(response.status).toBe(403);
     expect(response.type).toBe("application/json");
     expect(response.body.message).toBeTruthy();
+  });
+  // class types
+  it("GET /api/v1/class-types should return 200 when logged in", async () => {
+    const response = await req("get", "/api/v1/class-types", "client");
+
+    expect(response.status).toBe(200);
+    expect(response.type).toBe("application/json");
+    expect(response.body).toHaveLength(4);
+  });
+  it("POST /api/v1/class-types should return 200 when logged in", async () => {
+    const response = await req("post", "/api/v1/class-types", "instructor", {
+      name: "Soccer",
+    });
+
+    expect(response.status).toBe(201);
+    expect(response.type).toBe("application/json");
+    expect(response.body[0].name).toBe("Soccer");
+  });
+  // class-levels
+  it("GET /api/v1/class-levels should return 200 when logged in", async () => {
+    const response = await req("get", "/api/v1/class-levels", "client");
+
+    expect(response.status).toBe(200);
+    expect(response.type).toBe("application/json");
+    expect(response.body).toHaveLength(3);
   });
 });

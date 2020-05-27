@@ -72,6 +72,7 @@ class Classes extends Model {
       .orWhereRaw("classes.start_time::text like ?", `%${q}%`)
       .orWhereRaw("classes.duration::text like ?", `%${q}%`)
       .orWhere("classes.location", "like", `%${q}%`)
+      .orWhereRaw("classes.max_size::text like ?", `%${q}%`)
       .orWhere("t.name", "like", `%${q}%`)
       .orWhere("l.name", "like", `%${q}%`);
   }

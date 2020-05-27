@@ -5,8 +5,8 @@ class BaseController {
 
   async index(req, res, next) {
     try {
-      const classes = await this.model.findAll();
-      res.json(classes);
+      const result = await this.model.findAll();
+      res.json(result);
     } catch (error) {
       next(error);
     }
@@ -23,8 +23,9 @@ class BaseController {
 
   async create(req, res, next) {
     try {
-      const classes = await this.model.insert(req.body);
-      res.status(201).json(classes);
+      const reqBody = await this.beforeCreate(req);
+      const created = await this.model.insert(reqBody);
+      res.status(201).json(created);
     } catch (error) {
       next(error);
     }
@@ -32,8 +33,8 @@ class BaseController {
 
   async update(req, res, next) {
     try {
-      const classes = await this.model.update(req.params.id, req.body);
-      res.json(classes);
+      const updated = await this.model.update(req.params.id, req.body);
+      res.json(updated);
     } catch (error) {
       next(error);
     }
@@ -46,6 +47,19 @@ class BaseController {
     } catch (error) {
       next(error);
     }
+  }
+
+  async search(req, res, next) {
+    try {
+      const result = await this.model.search(req.query.q);
+      res.json(result);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async beforeCreate(req) {
+    return req.body;
   }
 }
 

@@ -21,7 +21,7 @@ exports.instructor = async (credentials) => {
     .expect(200);
 
   const authCode = await AuthCode.query()
-    .where("email", userData.email)
+    .where("email", credentials.email)
     .first();
 
   const payload = {
@@ -35,10 +35,10 @@ exports.instructor = async (credentials) => {
   return await login(credentials);
 };
 
-async function login(payload) {
+exports.login = async (payload) => {
   const credentials = payload || {
     email: userData.email,
     password: userData.password,
   };
   return await request(app).post("/api/v1/auth/login").send(credentials);
-}
+};

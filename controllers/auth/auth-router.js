@@ -8,6 +8,7 @@ const UserRole = require("./../../models/UserRole");
 const authentication = require("./auth-middleware");
 const sendMail = require("./../../utils/sendMail");
 const { generateAuthToken } = require("./../../utils");
+const UserRoleController = require("./../UseRoleController");
 
 router.post("/signup", verifyAuthCode, async (req, res, next) => {
   try {
@@ -21,9 +22,9 @@ router.post("/signup", verifyAuthCode, async (req, res, next) => {
       password: hash,
     });
 
-    delete user.password;
+    const { password, ...createdU } = user[0];
 
-    return res.status(201).json(user[0]);
+    return res.status(201).json(createdU);
   } catch (error) {
     next(error);
   }
@@ -106,6 +107,8 @@ router.get("/auth-code", async (req, res, next) => {
     next(error);
   }
 });
+
+router.get("/user-roles", UserRoleController.index.bind(UserRoleController));
 
 async function verifyAuthCode(req, res, next) {
   try {

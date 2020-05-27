@@ -1,9 +1,11 @@
 const request = require("supertest");
 const app = require("../../app");
-const login = require("./login");
+const { login } = require("./login");
+const { client, instructor } = require("./");
 
 module.exports = async (method, url, user, data) => {
-  const auth = await login[user]();
+  const credentials = user === "client" ? client : instructor;
+  const auth = await login(credentials);
   expect(auth.status).toBe(200);
 
   let response;
