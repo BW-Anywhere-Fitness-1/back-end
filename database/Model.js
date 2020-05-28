@@ -38,8 +38,8 @@ class Model {
     try {
       payload = await this.beforeCreate(payload);
       const result = await this.query().insert(payload).returning("*");
-      this.afterCreate(result);
-      return result;
+
+      return await this.afterCreate(result);
     } catch (error) {
       throw new DatabaseError(error.message);
     }
@@ -48,11 +48,12 @@ class Model {
   async update(id, payload) {
     this.$validate(payload);
     try {
+      payload = await this.beforeUpdate(payload);
       const result = await this.query()
         .where({ id })
         .update(payload)
         .returning("*");
-      return result;
+      return await this.afterUpdate(result);
     } catch (error) {
       throw new DatabaseError(error.message);
     }
@@ -71,7 +72,17 @@ class Model {
     return data;
   }
 
-  async afterCreate(data) {}
+  async afterCreate(data) {
+    return data;
+  }
+
+  async beforeUpdate(data) {
+    return data;
+  }
+
+  async afterUpdate(data) {
+    return data;
+  }
 
   $validate(data) {
     const v = this.validator.validate(data, this.jsonSchema);
