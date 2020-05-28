@@ -1,6 +1,15 @@
 const Model = require("../database/Model");
 const jsonschema = require("jsonschema");
 const { dataType } = require("./../utils");
+const days = [
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+  "Sunday",
+];
 
 class Classes extends Model {
   constructor() {
@@ -84,16 +93,14 @@ class Classes extends Model {
     };
   }
 
+  beforeUpdate(payload) {
+    return {
+      ...payload,
+      schedule: payload.schedule.join(" | "),
+    };
+  }
+
   validateSchedule(instance, schema, options, ctx) {
-    const days = [
-      "Monday",
-      "Tuesday",
-      "Wednesday",
-      "Thursday",
-      "Friday",
-      "Saturday",
-      "Sunday",
-    ];
     if (typeof instance !== "string") return;
     if (typeof schema.day !== "boolean")
       throw new jsonschema.SchemaError('"day" expects a boolean', schema);

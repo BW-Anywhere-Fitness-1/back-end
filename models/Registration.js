@@ -46,13 +46,13 @@ class Registration extends Model {
       attendees: classes.attendees + 1,
     };
 
-    Classes.update(classes.id, data)
+    return Classes.update(classes.id, data)
       .then((res) => {
-        if (!res[0].id)
+        if (res.length && !res[0].id)
           throw new Registration(
             "Unable to process registration. Unknown error."
           );
-        return res;
+        return payload;
       })
       .catch((err) => console.log(err));
   }
