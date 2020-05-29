@@ -13,7 +13,6 @@ describe("testing classes", () => {
     //await User.query().delete();
   });
   afterAll(async (done) => {
-    await Classes.query().delete();
     done();
   });
   // index endpoint
@@ -153,7 +152,7 @@ describe("testing classes", () => {
 
     expect(response.status).toBe(200);
     expect(response.type).toBe("application/json");
-    expect(response.body.id).toEqual(classes.id);
+    expect(response.body[0].id).toEqual(classes.id);
     expect(deleteClass).toBeUndefined();
   });
   it("DELETE /api/v1/classes:id should return 403 when logged in as client", async () => {

@@ -3,7 +3,7 @@ const { req } = require("./helpers"); // logged in request
 const app = require("./../app");
 const knex = require("./../database/db-config");
 const Registration = require("./../models/Registration");
-const User = require("./../models/User");
+const Classes = require("./../models/Classes");
 
 describe("testing registrations", () => {
   beforeAll(async () => {
@@ -28,17 +28,41 @@ describe("testing registrations", () => {
       class_id: 1,
     });
 
+    const classes = await Classes.findById(1);
+
     expect(response.status).toBe(201);
     expect(response.type).toBe("application/json");
     expect(response.body).toBeTruthy();
+    expect(classes.attendees).toBe(1);
   });
   it("POST /api/v1/registrations should return 403 when not logged in", async () => {
-    const response = await request(app).get("/api/v1/registrations").send({
+    const response = await request(app).post("/api/v1/registrations").send({
       class_id: 1,
     });
 
     expect(response.status).toBe(403);
     expect(response.type).toBe("application/json");
     expect(response.body.message).toBeTruthy();
+  });
+  it("DELETE /api/v1/registrations should return 200 when ok", async () => {
+    const registration = await Registration.findById(1);
+    const classes = await Classes.findById(registration.class_id);
+    const expectedAttendees = classes.attendees - 1;
+
+    const response = await req(
+      "delete",
+      `/api/v1/registrations/${registration.id}`,
+      "client"
+    );
+
+    const registrations = await Registration.findAll();
+
+    const updatedClass = await Classes.findById(response.body[0].class_id);
+
+    expect(response.status).toBe(200);
+    expect(response.type).toBe("application/json");
+    expect(response.body[0].id).toBe(1);
+    expect(registrations).toHaveLength(4);
+    expect(updatedClass.attendees).toEqual(expectedAttendees);
   });
 });
