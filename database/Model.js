@@ -61,8 +61,8 @@ class Model {
 
   async del(id) {
     try {
-      await this.query().where({ id }).del();
-      return id;
+      const deleted = await this.query().where({ id }).del().returning("*");
+      return await this.afterDelete(deleted);
     } catch (error) {
       throw new DatabaseError(error.message);
     }
@@ -89,6 +89,10 @@ class Model {
     if (v.errors.length) {
       throw new ValidationError(v.errors);
     }
+  }
+
+  afterDelete(data) {
+    return data;
   }
 
   $related() {}

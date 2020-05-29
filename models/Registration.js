@@ -56,6 +56,28 @@ class Registration extends Model {
       })
       .catch((err) => console.log(err));
   }
+
+  async afterDelete(payload) {
+    const classes = await Classes.query()
+      .where("id", payload[0].class_id)
+      .first();
+
+    const data = {
+      ...classes,
+      schedule: classes.schedule.split("|").map((day) => day.trim()),
+      attendees: classes.attendees - 1,
+    };
+
+    return Classes.update(classes.id, data)
+      .then((res) => {
+        if (res.length && !res[0].id)
+          throw new Registration(
+            "Unable to process registration. Unknown error."
+          );
+        return payload;
+      })
+      .catch((err) => console.log(err));
+  }
 }
 
 module.exports = new Registration();

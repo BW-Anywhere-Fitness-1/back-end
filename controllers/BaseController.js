@@ -42,8 +42,8 @@ class BaseController {
 
   async remove(req, res, next) {
     try {
-      await this.model.del(req.params.id);
-      res.json({ id: parseInt(req.params.id) });
+      const deleted = await this.model.del(req.params.id);
+      res.json(deleted);
     } catch (error) {
       next(error);
     }
