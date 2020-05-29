@@ -39,6 +39,7 @@ router.post("/login", async (req, res, next) => {
     if (user && bcrypt.compareSync(password, user.password)) {
       const tokenPayload = {
         subject: user.id,
+        role_id: user.role_id,
       };
       const access_token = jwt.sign(tokenPayload, process.env.JWT_SECRET);
 
