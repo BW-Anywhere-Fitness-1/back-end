@@ -13,7 +13,6 @@ describe("testing classes", () => {
     //await User.query().delete();
   });
   afterAll(async (done) => {
-    await Classes.query().delete();
     done();
   });
   // index endpoint
